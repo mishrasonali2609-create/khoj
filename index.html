@@ -1,8 +1,10 @@
-<html lang="en" data-theme="light"><head>
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Khoj — Job Tracker</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ── CURSOR FIXES ── */
 *{cursor:default;}
@@ -39,8 +41,8 @@ input[type=range]{cursor:ew-resize !important;}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;letter-spacing:.01em;transition:background .25s,color .25s;}
 
 /* ── SIDEBAR ── */
-.sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sidebar-w);background:var(--sur);border-right:1px solid var(--bdr);display:flex;flex-direction:column;padding:18px 0;z-index:200;transition:width .28s cubic-bezier(.4,0,.2,1);overflow:visible;min-height:0;}
-.sidebar.expanded{width:var(--sidebar-expanded);overflow:hidden;}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sidebar-w);background:var(--sur);border-right:1px solid var(--bdr);display:flex;flex-direction:column;padding:18px 0;z-index:200;transition:width .28s cubic-bezier(.4,0,.2,1);overflow:hidden;min-height:0;}
+.sidebar.expanded{width:var(--sidebar-expanded);}
 .sidebar-toggle{width:28px;height:28px;border-radius:var(--radius-sm);background:transparent;border:1px solid var(--bdr);color:var(--mut);cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 12px 12px;font-size:.82rem;transition:all .2s;flex-shrink:0;}
 .sidebar-toggle:hover{background:var(--sur2);color:var(--txt);border-color:var(--txt);}
 .logo-wrap{display:flex;align-items:center;gap:10px;padding:0 12px 14px;border-bottom:1px solid var(--bdr);min-width:210px;}
@@ -48,49 +50,19 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .logo-text{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1.05rem;white-space:nowrap;opacity:0;transition:opacity .2s .1s;color:var(--txt);}
 .sidebar.expanded .logo-text{opacity:1;}
 .logo-text span{color:var(--mut);}
-.nav{margin-top:12px;flex:1;overflow-y:auto;overflow-x:visible;}
+.nav{margin-top:12px;flex:1;overflow-y:auto;overflow-x:hidden;}
 .nav::-webkit-scrollbar{width:3px;}
 .nav::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:2px;}
-.ni{display:flex;align-items:center;gap:10px;padding:6px 12px;cursor:pointer;border-left:2px solid transparent;transition:all .15s;white-space:nowrap;position:relative;margin:0;overflow:visible;}
-.ni:hover{background:var(--sur2);color:var(--txt);box-shadow:inset 3px 0 0 var(--txt);}
+.ni{display:flex;align-items:center;gap:10px;padding:6px 12px;cursor:pointer;border-left:2px solid transparent;transition:all .15s;white-space:nowrap;position:relative;margin:0;}
+.ni:hover{background:var(--sur2);color:var(--txt);}
 .ni.active{border-left-color:var(--txt);background:var(--sur2);}
-
-/* ── SIDEBAR TOOLTIPS ── */
-.ni{position:relative;}
-.ni-tooltip{
-  position:fixed;
-  left:72px;
-  background:var(--txt);
-  color:var(--bg);
-  padding:5px 12px;
-  border-radius:6px;
-  font-size:.78rem;
-  font-weight:600;
-  white-space:nowrap;
-  pointer-events:none;
-  opacity:0;
-  z-index:9999;
-  box-shadow:0 3px 12px rgba(0,0,0,.2);
-  transition:opacity .15s;
-}
-.ni-tooltip::before{
-  content:'';
-  position:absolute;
-  left:-5px;top:50%;
-  transform:translateY(-50%);
-  border:5px solid transparent;
-  border-right-color:var(--txt);
-  border-left:none;
-}
-.ni-icon{width:28px;height:28px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;transition:all .2s;}
+.ni-icon{width:28px;height:28px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;transition:all .15s;}
 .ni-label{font-size:.88rem;font-weight:500;color:var(--mut);transition:color .15s;opacity:0;}
 .ni:hover .ni-label{color:var(--txt);}
 .ni.active .ni-label{color:var(--txt);font-weight:600;}
 .sidebar.expanded .ni-label{opacity:1;}
-
-
-.ni:hover 
-.sidebar.expanded .ni:hover 
+.ni-tooltip{position:absolute;left:calc(var(--sidebar-w) + 6px);top:50%;transform:translateY(-50%);background:var(--txt);color:var(--bg);padding:4px 9px;border-radius:5px;font-size:.73rem;font-weight:600;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s;z-index:300;}
+.sidebar:not(.expanded) .ni:hover .ni-tooltip{opacity:1;}
 .sidebar-bottom{padding:14px 12px;border-top:1px solid var(--bdr);display:flex;align-items:center;gap:10px;}
 .theme-btn{width:30px;height:30px;border-radius:var(--radius-sm);background:transparent;border:1px solid var(--bdr);color:var(--mut);cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
 .theme-btn:hover{background:var(--sur2);color:var(--txt);border-color:var(--txt);}
@@ -411,34 +383,11 @@ select option{background:var(--sur);color:var(--txt);}
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:2px;}
-
-/* ── FLOATING SIDEBAR TOOLTIP ── */
-#sidebar-tip{
-  position:fixed;
-  left:0;top:0;
-  background:var(--txt);color:var(--bg);
-  padding:5px 12px;border-radius:6px;
-  font-size:.78rem;font-weight:600;
-  white-space:nowrap;pointer-events:none;
-  opacity:0;transition:opacity .15s;
-  z-index:9999;
-  box-shadow:0 3px 10px rgba(0,0,0,.2);
-  transform:translateY(-50%);
-}
-#sidebar-tip::before{
-  content:'';position:absolute;
-  left:-5px;top:50%;transform:translateY(-50%);
-  border:5px solid transparent;
-  border-right-color:var(--txt);
-  border-left:none;
-}
 </style>
 </head>
 <body>
 <div id="_toast"></div>
 <div id="hm-tip" class="hm-tooltip"></div>
-<div id="nav-tip" class="ni-tooltip"></div>
-<div id="sidebar-tip"></div>
 
 <!-- SIDEBAR -->
 <nav class="sidebar" id="sidebar">
@@ -448,79 +397,23 @@ select option{background:var(--sur);color:var(--txt);}
     <div class="logo-text">K<span>hoj</span></div>
   </div>
   <div class="nav">
-    <div class="ni active" onclick="showPage('dashboard')" data-tip="Dashboard" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">📊</div><span class="ni-label">Dashboard</span></div>
-    <div class="ni" onclick="showPage('applications')" data-tip="Applications" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">📋</div><span class="ni-label">Applications</span></div>
-    <div class="ni" onclick="showPage('resume')" data-tip="Resumes" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">📄</div><span class="ni-label">Resumes</span></div>
-    <div class="ni" onclick="showPage('fit')" data-tip="Job Fit" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">🎯</div><span class="ni-label">Job Fit</span></div>
-    <div class="ni" onclick="showPage('interviews')" data-tip="Interviews" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">🗓</div><span class="ni-label">Interviews</span></div>
-    <div class="ni" onclick="showPage('ats')" data-tip="ATS Scanner" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">🤖</div><span class="ni-label">ATS Scanner</span></div>
-    <div class="ni" onclick="showPage('calendar')" data-tip="Calendar" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">📅</div><span class="ni-label">Calendar</span></div>
-    <div class="ni" onclick="showPage('discover')" data-tip="Job Discovery" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">🔭</div><span class="ni-label">Job Discovery</span></div>
-    <div class="ni" onclick="showPage('resume-builder')" data-tip="Resume &amp; Cover Letter" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">✍️</div><span class="ni-label">Resume &amp; Cover</span></div>
-    <div class="ni" onclick="showPage('analytics')" data-tip="Analytics" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">📈</div><span class="ni-label">Analytics</span></div>
-    <div class="ni" onclick="showPage('interview-prep')" data-tip="Interview Prep" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">💡</div><span class="ni-label">Interview Prep</span></div>
+    <div class="ni active" onclick="showPage('dashboard')"><div class="ni-icon">📊</div><span class="ni-label">Dashboard</span><div class="ni-tooltip">Dashboard</div></div>
+    <div class="ni" onclick="showPage('applications')"><div class="ni-icon">📋</div><span class="ni-label">Applications</span><div class="ni-tooltip">Applications</div></div>
+    <div class="ni" onclick="showPage('resume')"><div class="ni-icon">📄</div><span class="ni-label">Resumes</span><div class="ni-tooltip">Resumes</div></div>
+    <div class="ni" onclick="showPage('fit')"><div class="ni-icon">🎯</div><span class="ni-label">Job Fit</span><div class="ni-tooltip">Job Fit</div></div>
+    <div class="ni" onclick="showPage('interviews')"><div class="ni-icon">🗓</div><span class="ni-label">Interviews</span><div class="ni-tooltip">Interviews</div></div>
+    <div class="ni" onclick="showPage('ats')"><div class="ni-icon">🤖</div><span class="ni-label">ATS Scanner</span><div class="ni-tooltip">ATS Scanner</div></div>
+    <div class="ni" onclick="showPage('calendar')"><div class="ni-icon">📅</div><span class="ni-label">Calendar</span><div class="ni-tooltip">Calendar</div></div>
+    <div class="ni" onclick="showPage('discover')"><div class="ni-icon">🔭</div><span class="ni-label">Job Discovery</span><div class="ni-tooltip">Job Discovery</div></div>
+    <div class="ni" onclick="showPage('resume-builder')"><div class="ni-icon">✍️</div><span class="ni-label">Resume & Cover</span><div class="ni-tooltip">Resume & Cover Letter</div></div>
+    <div class="ni" onclick="showPage('analytics')"><div class="ni-icon">📈</div><span class="ni-label">Analytics</span><div class="ni-tooltip">Analytics</div></div>
+    <div class="ni" onclick="showPage('interview-prep')"><div class="ni-icon">💡</div><span class="ni-label">Interview Prep</span><div class="ni-tooltip">Interview Prep</div></div>
   </div>
   <div class="sidebar-bottom">
-    <button class="theme-btn" onclick="toggleTheme()" id="theme-btn" title="Toggle theme">☀️</button>
+    <button class="theme-btn" onclick="toggleTheme()" id="theme-btn" title="Toggle theme">🌙</button>
     <span class="theme-label">Toggle theme</span>
   </div>
-  <!-- Deploy button — always visible to allow setup -->
-  <div id="deploy-wrap" style="padding:10px 12px;border-top:1px solid var(--bdr);">
-    <button onclick="openDeploy()" id="deploy-btn" style="width:100%;padding:7px 10px;background:var(--sur2);color:var(--mut);border:1px solid var(--bdr);border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;">
-      <span id="deploy-btn-icon">⚙️</span>
-      <span id="deploy-btn-label" style="opacity:0;transition:opacity .2s .1s;white-space:nowrap;">Deploy Settings</span>
-    </button>
-  </div>
 </nav>
-
-<!-- DEPLOY MODAL -->
-<div class="overlay open" id="m-deploy" onclick="if(event.target===this)closeDeploy()">
-  <div class="modal" style="width:480px;">
-    <button class="mclose" onclick="closeDeploy()">✕</button>
-    <div class="mtitle">🚀 Push Update to Live Site</div>
-
-    <!-- Setup panel (shown when no token saved) -->
-    <div id="deploy-setup" style="display: none;">
-      <div style="background:var(--sur2);border:1px solid var(--bdr);border-radius:var(--radius-sm);padding:13px 15px;font-size:.82rem;color:var(--mut);line-height:1.65;margin-bottom:16px;">
-        <strong style="color:var(--txt);display:block;margin-bottom:6px;">One-time setup</strong>
-        1. Go to <strong style="color:var(--txt)">github.com → Settings → Developer settings → Personal access tokens → Tokens (classic)</strong><br>
-        2. Click <strong style="color:var(--txt)">Generate new token (classic)</strong><br>
-        3. Give it a name, select <strong style="color:var(--txt)">repo</strong> scope<br>
-        4. Copy the token and paste below
-      </div>
-      <div class="fg" style="margin-bottom:12px;">
-        <label>GitHub Personal Access Token</label>
-        <input type="password" id="gh-token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="font-family:monospace;">
-      </div>
-      <div class="fg" style="margin-bottom:12px;">
-        <label>GitHub Username</label>
-        <input type="text" id="gh-username-input" placeholder="e.g. rahulsharma">
-      </div>
-      <div class="fg" style="margin-bottom:16px;">
-        <label>Repository Name</label>
-        <input type="text" id="gh-repo-input" placeholder="e.g. khoj">
-      </div>
-      <button class="btn btn-p" style="width:100%;justify-content:center;" onclick="saveGHConfig()">Save &amp; Connect</button>
-    </div>
-
-    <!-- Push panel (shown when token is saved) -->
-    <div id="deploy-push" style="display: block;">
-      <div style="background:var(--sur2);border:1px solid var(--bdr);border-radius:var(--radius-sm);padding:13px 15px;margin-bottom:16px;">
-        <div style="font-size:.78rem;color:var(--mut);margin-bottom:4px;">Connected to</div>
-        <div style="font-size:.88rem;font-weight:600;" id="deploy-repo-label">mishrasonali2609-create/khoj</div>
-      </div>
-      <div class="fg" style="margin-bottom:16px;">
-        <label>Commit message (optional)</label>
-        <input type="text" id="deploy-msg" placeholder="e.g. Updated UI, fixed calendar">
-      </div>
-      <div id="deploy-status" style="display: block; padding: 10px 13px; border-radius: var(--radius-sm); font-size: 0.82rem; margin-bottom: 14px; background: var(--sur2); border: 1px solid var(--bdr); color: var(--mut);">⏳ Encoding file...</div>
-      <div style="display:flex;gap:8px;">
-        <button class="btn btn-g" style="font-size:.8rem;" onclick="resetGHConfig()">🔌 Disconnect</button>
-        <button class="btn btn-p" style="flex:1;justify-content:center;font-size:.88rem;" id="push-btn" onclick="pushToGitHub()" disabled="">Pushing...</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <main class="main" id="main-content">
 
@@ -536,14 +429,10 @@ select option{background:var(--sur);color:var(--txt);}
       <button class="btn btn-p" onclick="openImport('url')">⚡ Smart Import</button>
     </div>
   </div>
-  <div class="sgrid" id="stats-grid">
-    <div class="sc bl"><div class="sl">Applications</div><div class="sv bl">0</div><div class="ss">Total tracked</div></div>
-    <div class="sc pu"><div class="sl">Interviews</div><div class="sv pu">0</div><div class="ss">Active rounds</div></div>
-    <div class="sc gr"><div class="sl">Offers</div><div class="sv gr">0</div><div class="ss">In hand</div></div>
-    <div class="sc ye"><div class="sl">Response Rate</div><div class="sv ye">0%</div><div class="ss">Interview + offers</div></div></div>
+  <div class="sgrid" id="stats-grid"></div>
   <div style="display:grid;grid-template-columns:2fr 1fr;gap:18px;">
     <div class="card card-clip">
-      <div class="ch"><div class="ct">Recent Applications</div><button class="btn btn-g" style="padding:6px 14px;font-size:.78rem" onclick="showPage('applications')" data-tip="Applications" onmouseenter="showTip(event,this)" onmouseleave="hideTip()">View All →</button></div>
+      <div class="ch"><div class="ct">Recent Applications</div><button class="btn btn-g" style="padding:6px 14px;font-size:.78rem" onclick="showPage('applications')">View All →</button></div>
       <div id="recent-wrap"></div>
     </div>
     <div class="card">
@@ -573,7 +462,7 @@ select option{background:var(--sur);color:var(--txt);}
 <div id="page-resume" class="page">
   <div class="ph"><div><div class="pt">Resume Manager</div><div class="ps">Store and manage all your resume versions</div></div></div>
   <div class="rzone" id="rzone" ondragover="event.preventDefault();this.style.borderColor='var(--acc)'" ondragleave="this.style.borderColor=''" ondrop="onDrop(event)">
-    <input type="file" accept=".pdf,.doc,.docx" multiple="" onchange="onFileSelect(event)">
+    <input type="file" accept=".pdf,.doc,.docx" multiple onchange="onFileSelect(event)">
     <div style="font-size:2.6rem;margin-bottom:12px;animation:float 3s ease-in-out infinite">📤</div>
     <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.95rem;margin-bottom:6px">Drop resume here or click to upload</div>
     <div style="color:var(--mut);font-size:.82rem">PDF, DOC, DOCX supported · Multiple files allowed</div>
@@ -596,9 +485,7 @@ select option{background:var(--sur);color:var(--txt);}
         <div style="font-size:.8rem;color:var(--mut);line-height:1.5;">Paste your resume once — AI uses it to score every application. The more complete it is, the better.</div>
       </div>
       <div style="flex:2;min-width:280px;">
-        <textarea id="fit-resume-text" rows="4" placeholder="Paste your resume here...
-
-Include work experience, skills, education, certifications. No need to reformat — paste as-is." style="width:100%;background:var(--sur2);border:1px solid var(--bdr);border-radius:var(--radius-sm);color:var(--txt);font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;padding:11px 13px;outline:none;resize:vertical;line-height:1.6;transition:border-color .15s;"></textarea>
+        <textarea id="fit-resume-text" rows="4" placeholder="Paste your resume here...&#10;&#10;Include work experience, skills, education, certifications. No need to reformat — paste as-is." style="width:100%;background:var(--sur2);border:1px solid var(--bdr);border-radius:var(--radius-sm);color:var(--txt);font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;padding:11px 13px;outline:none;resize:vertical;line-height:1.6;transition:border-color .15s;"></textarea>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;flex-wrap:wrap;gap:8px;">
           <div style="font-size:.75rem;color:var(--mut);" id="fit-resume-status">No resume saved yet</div>
           <div style="display:flex;gap:7px;">
@@ -680,7 +567,7 @@ Include work experience, skills, education, certifications. No need to reformat 
 
 <!-- DISCOVER -->
 <div id="page-discover" class="page">
-  <div class="ph"><div><div class="pt">🔭 Job Discovery</div><div class="ps">AI finds real roles &amp; companies matching your profile</div></div></div>
+  <div class="ph"><div><div class="pt">🔭 Job Discovery</div><div class="ps">AI finds real roles & companies matching your profile</div></div></div>
   <div class="disc-form">
     <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.88rem;margin-bottom:14px">Tell us about yourself</div>
     <div class="disc-fg">
@@ -696,7 +583,7 @@ Include work experience, skills, education, certifications. No need to reformat 
 
 <!-- RESUME BUILDER -->
 <div id="page-resume-builder" class="page">
-  <div class="ph"><div><div class="pt">✍️ Resume &amp; Cover Letter</div><div class="ps">AI tailors your resume and writes cover letters for each job</div></div></div>
+  <div class="ph"><div><div class="pt">✍️ Resume & Cover Letter</div><div class="ps">AI tailors your resume and writes cover letters for each job</div></div></div>
   <div class="rcl-tabs">
     <div class="rcl-tab active" onclick="rclTab('tailor')">📄 Tailor Resume</div>
     <div class="rcl-tab" onclick="rclTab('cover')">✉️ Cover Letter</div>
@@ -717,7 +604,7 @@ Include work experience, skills, education, certifications. No need to reformat 
             <select id="tr-app-sel" onchange="fillJDFromApp()" style="width:100%;background:var(--sur2);border:1.5px solid var(--bdr);border-radius:var(--radius-sm);color:var(--txt);font-family:'Plus Jakarta Sans',sans-serif;font-size:.83rem;padding:9px 13px;outline:none;">
               <option value="">— Select an application —</option>
             </select>
-            <div style="font-size:.7rem;color:var(--mut);margin-top:5px;">💡 Pulls skills, role &amp; notes. Paste full JD for best results.</div>
+            <div style="font-size:.7rem;color:var(--mut);margin-top:5px;">💡 Pulls skills, role & notes. Paste full JD for best results.</div>
           </div>
         </div>
         <button class="gbtn" id="tr-btn" onclick="runTailor()" style="margin-top:16px;">✨ <span id="tr-btn-t">Tailor My Resume</span></button>
@@ -732,7 +619,7 @@ Include work experience, skills, education, certifications. No need to reformat 
     </div>
   </div>
   <div class="rcl-panel" id="rcl-cover">
-    <div class="rcl-hint"><strong>How it works:</strong> Paste your resume + job description → AI writes a personalised cover letter matching your experience to the role. Choose tone &amp; length.</div>
+    <div class="rcl-hint"><strong>How it works:</strong> Paste your resume + job description → AI writes a personalised cover letter matching your experience to the role. Choose tone & length.</div>
     <div class="rcl-2col">
       <div>
         <div class="rcl-box">
@@ -750,7 +637,7 @@ Include work experience, skills, education, certifications. No need to reformat 
           </div>
         </div>
         <div class="rcl-box" style="margin-top:16px;">
-          <div class="rcl-label">🎨 Tone &amp; Style</div>
+          <div class="rcl-label">🎨 Tone & Style</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
             <div class="fg"><label>Tone</label>
               <select id="cl-tone" style="background:var(--sur2);border:1.5px solid var(--bdr);border-radius:var(--radius-sm);color:var(--txt);font-family:'Plus Jakarta Sans',sans-serif;font-size:.83rem;padding:9px 13px;outline:none;width:100%;">
@@ -904,7 +791,7 @@ Include work experience, skills, education, certifications. No need to reformat 
     <div class="fgrid">
       <div class="fg full"><label>Application</label><select id="iv-app"><option value="">— Select —</option></select></div>
       <div class="fg"><label>Round</label><select id="iv-round"><option>HR Screen</option><option>Technical 1</option><option>Technical 2</option><option>System Design</option><option>Managerial</option><option>Final</option></select></div>
-      <div class="fg"><label>Date &amp; Time</label><input type="datetime-local" id="iv-date"></div>
+      <div class="fg"><label>Date & Time</label><input type="datetime-local" id="iv-date"></div>
       <div class="fg"><label>Mode</label><select id="iv-mode"><option>Video Call</option><option>Phone</option><option>In-Person</option><option>Take-Home</option></select></div>
       <div class="fg"><label>Outcome</label><select id="iv-outcome"><option>Upcoming</option><option>Passed</option><option>Rejected</option><option>Awaiting</option></select></div>
       <div class="fg full"><label>Notes</label><textarea id="iv-notes" placeholder="Topics, interviewer name..."></textarea></div>
@@ -957,7 +844,7 @@ Include work experience, skills, education, certifications. No need to reformat 
     <div class="ipanel" id="tab-jd">
       <div class="ihint"><strong>Copy the full job description</strong> from LinkedIn, Naukri, anywhere — paste it here.</div>
       <textarea class="ita" id="i-jd" placeholder="Paste job description here..."></textarea>
-      <button class="ebtn" id="jd-btn" onclick="extractJD()">✨ Extract &amp; Auto-Fill</button>
+      <button class="ebtn" id="jd-btn" onclick="extractJD()">✨ Extract & Auto-Fill</button>
       <div class="ist" id="jd-st"></div>
     </div>
     <div class="ipanel" id="tab-email">
@@ -985,7 +872,7 @@ Include work experience, skills, education, certifications. No need to reformat 
       <button class="ebtn" style="margin-top:13px;" onclick="quickSave()">⚡ Save Now</button>
     </div>
     <div id="import-preview" style="display:none;margin-top:20px;border-top:1px solid var(--bdr);padding-top:20px;">
-      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.88rem;margin-bottom:14px;color:var(--grn);">✅ Extracted — Review &amp; Save</div>
+      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.88rem;margin-bottom:14px;color:var(--grn);">✅ Extracted — Review & Save</div>
       <div class="fgrid">
         <div class="fg"><label>Company</label><input type="text" id="p-company"></div>
         <div class="fg"><label>Role</label><input type="text" id="p-role"></div>
@@ -1005,22 +892,6 @@ Include work experience, skills, education, certifications. No need to reformat 
 
 
 <script>
-function showTip(e, el){
-  const sidebar = document.getElementById('sidebar');
-  if(sidebar && sidebar.classList.contains('expanded')) return;
-  const tip = document.getElementById('nav-tip');
-  if(!tip) return;
-  tip.textContent = el.dataset.tip;
-  const rect = el.getBoundingClientRect();
-  tip.style.top = (rect.top + rect.height/2) + 'px';
-  tip.style.transform = 'translateY(-50%)';
-  tip.style.opacity = '1';
-}
-function hideTip(){
-  const tip = document.getElementById('nav-tip');
-  if(tip) tip.style.opacity = '0';
-}
-
 // ── THEME ──
 function toggleTheme(){
   const html=document.documentElement;
@@ -2234,170 +2105,12 @@ function hideHmTip(){
   document.getElementById('hm-tip').style.display='none';
 }
 
-// ── GITHUB DEPLOY ──
-function showSidebarTip(e, name){
-  const sidebar=document.getElementById('sidebar');
-  if(sidebar&&sidebar.classList.contains('expanded')) return;
-  const tip=document.getElementById('sidebar-tip');
-  if(!tip) return;
-  const rect=e.currentTarget.getBoundingClientRect();
-  tip.textContent=name;
-  tip.style.left=(rect.right+10)+'px';
-  tip.style.top=(rect.top+rect.height/2)+'px';
-  tip.style.opacity='1';
-}
-function hideSidebarTip(){
-  const tip=document.getElementById('sidebar-tip');
-  if(tip) tip.style.opacity='0';
-}
-
-function initDeploy(){
-  const cfg=getGHConfig();
-  const btn=document.getElementById('deploy-btn');
-  const icon=document.getElementById('deploy-btn-icon');
-  const label=document.getElementById('deploy-btn-label');
-  const sidebar=document.getElementById('sidebar');
-  const expanded=sidebar&&sidebar.classList.contains('expanded');
-  if(label) label.style.opacity=expanded?'1':'0';
-  if(cfg){
-    // Connected — show as deploy button
-    btn.style.background='var(--txt)';
-    btn.style.color='var(--bg)';
-    btn.style.border='none';
-    if(icon) icon.textContent='🚀';
-    if(label) label.textContent='Push Update';
-  } else {
-    // Not connected — show as settings
-    btn.style.background='var(--sur2)';
-    btn.style.color='var(--mut)';
-    btn.style.border='1px solid var(--bdr)';
-    if(icon) icon.textContent='⚙️';
-    if(label) label.textContent='Deploy Settings';
-  }
-}
-
-function getGHConfig(){
-  const t=localStorage.getItem('gh_token');
-  const u=localStorage.getItem('gh_username');
-  const r=localStorage.getItem('gh_repo');
-  if(t&&u&&r) return {token:t,username:u,repo:r};
-  return null;
-}
-
-function openDeploy(){
-  const cfg=getGHConfig();
-  document.getElementById('deploy-setup').style.display=cfg?'none':'block';
-  document.getElementById('deploy-push').style.display=cfg?'block':'none';
-  document.getElementById('deploy-status').style.display='none';
-  if(cfg){
-    document.getElementById('deploy-repo-label').textContent=cfg.username+'/'+cfg.repo;
-    document.getElementById('deploy-msg').value='';
-  }
-  document.getElementById('m-deploy').classList.add('open');
-}
-
-function closeDeploy(){
-  document.getElementById('m-deploy').classList.remove('open');
-}
-
-function saveGHConfig(){
-  const token=document.getElementById('gh-token-input').value.trim();
-  const username=document.getElementById('gh-username-input').value.trim();
-  const repo=document.getElementById('gh-repo-input').value.trim();
-  if(!token||!username||!repo){alert('Please fill in all fields.');return;}
-  localStorage.setItem('gh_token',token);
-  localStorage.setItem('gh_username',username);
-  localStorage.setItem('gh_repo',repo);
-  initDeploy();
-  document.getElementById('deploy-setup').style.display='none';
-  document.getElementById('deploy-push').style.display='block';
-  document.getElementById('deploy-repo-label').textContent=username+'/'+repo;
-  toast('✅ GitHub connected!');
-}
-
-function resetGHConfig(){
-  localStorage.removeItem('gh_token');
-  localStorage.removeItem('gh_username');
-  localStorage.removeItem('gh_repo');
-  closeDeploy();
-  initDeploy();
-  toast('🔌 Disconnected');
-}
-
-async function pushToGitHub(){
-  const cfg=getGHConfig();
-  if(!cfg) return;
-  const btn=document.getElementById('push-btn');
-  const statusEl=document.getElementById('deploy-status');
-
-  btn.disabled=true;
-  btn.textContent='Pushing...';
-  statusEl.style.display='block';
-  statusEl.style.background='var(--sur2)';
-  statusEl.style.border='1px solid var(--bdr)';
-  statusEl.style.color='var(--mut)';
-  statusEl.textContent='⏳ Getting current file from GitHub...';
-
-  try{
-    // 1. Get current file SHA (needed for update)
-    const getRes=await fetch(`https://api.github.com/repos/${cfg.username}/${cfg.repo}/contents/index.html`,{
-      headers:{'Authorization':'token '+cfg.token,'Accept':'application/vnd.github.v3+json'}
-    });
-    const getData=await getRes.json();
-    if(!getData.sha) throw new Error('Could not find index.html in repo. Make sure the file is named index.html');
-
-    statusEl.textContent='⏳ Encoding file...';
-
-    // 2. Get current page HTML
-    const content=document.documentElement.outerHTML;
-    const encoded=btoa(unescape(encodeURIComponent(content)));
-
-    statusEl.textContent='⏳ Pushing to GitHub...';
-
-    // 3. Push update
-    const msg=document.getElementById('deploy-msg').value.trim()||'Update Khoj — '+new Date().toLocaleDateString();
-    const pushRes=await fetch(`https://api.github.com/repos/${cfg.username}/${cfg.repo}/contents/index.html`,{
-      method:'PUT',
-      headers:{'Authorization':'token '+cfg.token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body:JSON.stringify({message:msg,content:encoded,sha:getData.sha})
-    });
-
-    const pushData=await pushRes.json();
-    if(pushData.content){
-      statusEl.style.background='rgba(45,106,79,.08)';
-      statusEl.style.border='1px solid rgba(45,106,79,.25)';
-      statusEl.style.color='var(--grn)';
-      statusEl.innerHTML='✅ Pushed! Netlify is deploying now...<br><span style="font-size:.75rem;opacity:.8;">Live in ~30 seconds. Refresh your site to see changes.</span>';
-      btn.textContent='✅ Done!';
-      setTimeout(()=>{btn.disabled=false;btn.textContent='🚀 Push to GitHub → Deploy';},3000);
-    } else {
-      throw new Error(pushData.message||'Push failed');
-    }
-  }catch(e){
-    statusEl.style.background='rgba(192,57,43,.08)';
-    statusEl.style.border='1px solid rgba(192,57,43,.25)';
-    statusEl.style.color='var(--red)';
-    statusEl.textContent='❌ Error: '+e.message;
-    btn.disabled=false;
-    btn.textContent='🚀 Push to GitHub → Deploy';
-  }
-}
-
 // INIT
 document.getElementById('fab').onclick=function(){openImport('quick');};
 renderDash();
 checkRem();
 setInterval(checkRem,60000);
-initDeploy();
-
-// Show/hide deploy button label when sidebar expands
-const _origToggle=toggleSidebar;
-toggleSidebar=function(){
-  _origToggle();
-  initDeploy();
-};
 
 </script>
-
-
-</body></html>
+</body>
+</html>
