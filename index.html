@@ -54,38 +54,43 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .ni{display:flex;align-items:center;gap:10px;padding:6px 12px;cursor:pointer;border-left:2px solid transparent;transition:all .15s;white-space:nowrap;position:relative;margin:0;overflow:visible;}
 .ni:hover{background:var(--sur2);color:var(--txt);box-shadow:inset 3px 0 0 var(--txt);}
 .ni.active{border-left-color:var(--txt);background:var(--sur2);}
+
+/* ── SIDEBAR TOOLTIPS ── */
+.ni{position:relative;}
+.ni-tooltip{
+  position:fixed;
+  left:72px;
+  background:var(--txt);
+  color:var(--bg);
+  padding:5px 12px;
+  border-radius:6px;
+  font-size:.78rem;
+  font-weight:600;
+  white-space:nowrap;
+  pointer-events:none;
+  opacity:0;
+  z-index:9999;
+  box-shadow:0 3px 12px rgba(0,0,0,.2);
+  transition:opacity .15s;
+}
+.ni-tooltip::before{
+  content:'';
+  position:absolute;
+  left:-5px;top:50%;
+  transform:translateY(-50%);
+  border:5px solid transparent;
+  border-right-color:var(--txt);
+  border-left:none;
+}
 .ni-icon{width:28px;height:28px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;transition:all .2s;}
 .ni-label{font-size:.88rem;font-weight:500;color:var(--mut);transition:color .15s;opacity:0;}
 .ni:hover .ni-label{color:var(--txt);}
 .ni.active .ni-label{color:var(--txt);font-weight:600;}
 .sidebar.expanded .ni-label{opacity:1;}
-.ni-tooltip{
-  position:absolute;
-  left:calc(var(--sidebar-w) + 8px);
-  top:50%;transform:translateY(-50%);
-  background:var(--txt);color:var(--bg);
-  padding:5px 11px;border-radius:6px;
-  font-size:.76rem;font-weight:600;
-  white-space:nowrap;pointer-events:none;
-  opacity:0;transition:opacity .15s, transform .15s;
-  transform:translateY(-50%) translateX(-4px);
-  z-index:300;
-  box-shadow:0 3px 10px rgba(0,0,0,.15);
-}
-.ni-tooltip::before{
-  content:'';position:absolute;
-  left:-5px;top:50%;transform:translateY(-50%);
-  border:5px solid transparent;
-  border-right-color:var(--txt);
-  border-left:none;
-}
-.ni:hover .ni-tooltip{
-  opacity:1;
-  transform:translateY(-50%) translateX(0);
-}
-.sidebar.expanded .ni:hover .ni-tooltip{
-  display:none;
-}
+
+
+.ni:hover 
+.sidebar.expanded .ni:hover 
 .sidebar-bottom{padding:14px 12px;border-top:1px solid var(--bdr);display:flex;align-items:center;gap:10px;}
 .theme-btn{width:30px;height:30px;border-radius:var(--radius-sm);background:transparent;border:1px solid var(--bdr);color:var(--mut);cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
 .theme-btn:hover{background:var(--sur2);color:var(--txt);border-color:var(--txt);}
@@ -406,11 +411,34 @@ select option{background:var(--sur);color:var(--txt);}
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:2px;}
+
+/* ── FLOATING SIDEBAR TOOLTIP ── */
+#sidebar-tip{
+  position:fixed;
+  left:0;top:0;
+  background:var(--txt);color:var(--bg);
+  padding:5px 12px;border-radius:6px;
+  font-size:.78rem;font-weight:600;
+  white-space:nowrap;pointer-events:none;
+  opacity:0;transition:opacity .15s;
+  z-index:9999;
+  box-shadow:0 3px 10px rgba(0,0,0,.2);
+  transform:translateY(-50%);
+}
+#sidebar-tip::before{
+  content:'';position:absolute;
+  left:-5px;top:50%;transform:translateY(-50%);
+  border:5px solid transparent;
+  border-right-color:var(--txt);
+  border-left:none;
+}
 </style>
 </head>
 <body>
-<div id="_toast" class="">✅ GitHub connected!</div>
+<div id="_toast"></div>
 <div id="hm-tip" class="hm-tooltip"></div>
+<div id="nav-tip" class="ni-tooltip"></div>
+<div id="sidebar-tip"></div>
 
 <!-- SIDEBAR -->
 <nav class="sidebar" id="sidebar">
@@ -420,17 +448,17 @@ select option{background:var(--sur);color:var(--txt);}
     <div class="logo-text">K<span>hoj</span></div>
   </div>
   <div class="nav">
-    <div class="ni active" onclick="showPage('dashboard')"><div class="ni-icon">📊</div><span class="ni-label">Dashboard</span><div class="ni-tooltip">Dashboard</div></div>
-    <div class="ni" onclick="showPage('applications')"><div class="ni-icon">📋</div><span class="ni-label">Applications</span><div class="ni-tooltip">Applications</div></div>
-    <div class="ni" onclick="showPage('resume')"><div class="ni-icon">📄</div><span class="ni-label">Resumes</span><div class="ni-tooltip">Resumes</div></div>
-    <div class="ni" onclick="showPage('fit')"><div class="ni-icon">🎯</div><span class="ni-label">Job Fit</span><div class="ni-tooltip">Job Fit</div></div>
-    <div class="ni" onclick="showPage('interviews')"><div class="ni-icon">🗓</div><span class="ni-label">Interviews</span><div class="ni-tooltip">Interviews</div></div>
-    <div class="ni" onclick="showPage('ats')"><div class="ni-icon">🤖</div><span class="ni-label">ATS Scanner</span><div class="ni-tooltip">ATS Scanner</div></div>
-    <div class="ni" onclick="showPage('calendar')"><div class="ni-icon">📅</div><span class="ni-label">Calendar</span><div class="ni-tooltip">Calendar</div></div>
-    <div class="ni" onclick="showPage('discover')"><div class="ni-icon">🔭</div><span class="ni-label">Job Discovery</span><div class="ni-tooltip">Job Discovery</div></div>
-    <div class="ni" onclick="showPage('resume-builder')"><div class="ni-icon">✍️</div><span class="ni-label">Resume &amp; Cover</span><div class="ni-tooltip">Resume &amp; Cover Letter</div></div>
-    <div class="ni" onclick="showPage('analytics')"><div class="ni-icon">📈</div><span class="ni-label">Analytics</span><div class="ni-tooltip">Analytics</div></div>
-    <div class="ni" onclick="showPage('interview-prep')"><div class="ni-icon">💡</div><span class="ni-label">Interview Prep</span><div class="ni-tooltip">Interview Prep</div></div>
+    <div class="ni active" onclick="showPage('dashboard')" data-tip="Dashboard" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">📊</div><span class="ni-label">Dashboard</span></div>
+    <div class="ni" onclick="showPage('applications')" data-tip="Applications" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">📋</div><span class="ni-label">Applications</span></div>
+    <div class="ni" onclick="showPage('resume')" data-tip="Resumes" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">📄</div><span class="ni-label">Resumes</span></div>
+    <div class="ni" onclick="showPage('fit')" data-tip="Job Fit" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">🎯</div><span class="ni-label">Job Fit</span></div>
+    <div class="ni" onclick="showPage('interviews')" data-tip="Interviews" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">🗓</div><span class="ni-label">Interviews</span></div>
+    <div class="ni" onclick="showPage('ats')" data-tip="ATS Scanner" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">🤖</div><span class="ni-label">ATS Scanner</span></div>
+    <div class="ni" onclick="showPage('calendar')" data-tip="Calendar" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">📅</div><span class="ni-label">Calendar</span></div>
+    <div class="ni" onclick="showPage('discover')" data-tip="Job Discovery" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">🔭</div><span class="ni-label">Job Discovery</span></div>
+    <div class="ni" onclick="showPage('resume-builder')" data-tip="Resume &amp; Cover Letter" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">✍️</div><span class="ni-label">Resume &amp; Cover</span></div>
+    <div class="ni" onclick="showPage('analytics')" data-tip="Analytics" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">📈</div><span class="ni-label">Analytics</span></div>
+    <div class="ni" onclick="showPage('interview-prep')" data-tip="Interview Prep" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"><div class="ni-icon">💡</div><span class="ni-label">Interview Prep</span></div>
   </div>
   <div class="sidebar-bottom">
     <button class="theme-btn" onclick="toggleTheme()" id="theme-btn" title="Toggle theme">☀️</button>
@@ -438,9 +466,9 @@ select option{background:var(--sur);color:var(--txt);}
   </div>
   <!-- Deploy button — always visible to allow setup -->
   <div id="deploy-wrap" style="padding:10px 12px;border-top:1px solid var(--bdr);">
-    <button onclick="openDeploy()" id="deploy-btn" style="width: 100%; padding: 7px 10px; background: var(--txt); color: var(--bg); border: none; border-radius: var(--radius-sm); font-family: &quot;Plus Jakarta Sans&quot;, sans-serif; font-size: 0.78rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: 0.2s;">
-      <span id="deploy-btn-icon">🚀</span>
-      <span id="deploy-btn-label" style="opacity:0;transition:opacity .2s .1s;white-space:nowrap;">Push Update</span>
+    <button onclick="openDeploy()" id="deploy-btn" style="width:100%;padding:7px 10px;background:var(--sur2);color:var(--mut);border:1px solid var(--bdr);border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;">
+      <span id="deploy-btn-icon">⚙️</span>
+      <span id="deploy-btn-label" style="opacity:0;transition:opacity .2s .1s;white-space:nowrap;">Deploy Settings</span>
     </button>
   </div>
 </nav>
@@ -515,7 +543,7 @@ select option{background:var(--sur);color:var(--txt);}
     <div class="sc ye"><div class="sl">Response Rate</div><div class="sv ye">0%</div><div class="ss">Interview + offers</div></div></div>
   <div style="display:grid;grid-template-columns:2fr 1fr;gap:18px;">
     <div class="card card-clip">
-      <div class="ch"><div class="ct">Recent Applications</div><button class="btn btn-g" style="padding:6px 14px;font-size:.78rem" onclick="showPage('applications')">View All →</button></div>
+      <div class="ch"><div class="ct">Recent Applications</div><button class="btn btn-g" style="padding:6px 14px;font-size:.78rem" onclick="showPage('applications')" data-tip="Applications" onmouseenter="showTip(event,this)" onmouseleave="hideTip()">View All →</button></div>
       <div id="recent-wrap"></div>
     </div>
     <div class="card">
@@ -977,6 +1005,22 @@ Include work experience, skills, education, certifications. No need to reformat 
 
 
 <script>
+function showTip(e, el){
+  const sidebar = document.getElementById('sidebar');
+  if(sidebar && sidebar.classList.contains('expanded')) return;
+  const tip = document.getElementById('nav-tip');
+  if(!tip) return;
+  tip.textContent = el.dataset.tip;
+  const rect = el.getBoundingClientRect();
+  tip.style.top = (rect.top + rect.height/2) + 'px';
+  tip.style.transform = 'translateY(-50%)';
+  tip.style.opacity = '1';
+}
+function hideTip(){
+  const tip = document.getElementById('nav-tip');
+  if(tip) tip.style.opacity = '0';
+}
+
 // ── THEME ──
 function toggleTheme(){
   const html=document.documentElement;
@@ -2191,6 +2235,22 @@ function hideHmTip(){
 }
 
 // ── GITHUB DEPLOY ──
+function showSidebarTip(e, name){
+  const sidebar=document.getElementById('sidebar');
+  if(sidebar&&sidebar.classList.contains('expanded')) return;
+  const tip=document.getElementById('sidebar-tip');
+  if(!tip) return;
+  const rect=e.currentTarget.getBoundingClientRect();
+  tip.textContent=name;
+  tip.style.left=(rect.right+10)+'px';
+  tip.style.top=(rect.top+rect.height/2)+'px';
+  tip.style.opacity='1';
+}
+function hideSidebarTip(){
+  const tip=document.getElementById('sidebar-tip');
+  if(tip) tip.style.opacity='0';
+}
+
 function initDeploy(){
   const cfg=getGHConfig();
   const btn=document.getElementById('deploy-btn');
